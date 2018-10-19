@@ -4,7 +4,13 @@ from constants import *
 from skimage import io
 from keras.models import load_model
 
-
+#   er_()
+#
+#   Parameters:
+#   url - url of the image
+#
+#   Returns:
+#   number of faces in the image
 def er_(url):
     em = -1
     classifier = load_model(model_path)
@@ -21,13 +27,30 @@ def er_(url):
         em = int(np.argmax(prediction))
     return em
 
+
+#   fr_()
+#
+#   Parameters:
+#   url - url of the image
+#
+#   Returns:
+#   emotion on the face(only the largest face)
 def fr_(url):
     image = io.imread(url)
     face_cascade = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     faces = face_cascade.detectMultiScale(gray,scaleFactor=1.1,minNeighbors=5,minSize=(30, 30))
     return (format(len(faces)))
-    
+
+#   json_()
+#
+#   Parameters:
+#   status - a status code
+#   em - emotion of the face corresponding to constants.py 
+#   url - url of the image
+#
+#   Returns:
+#   number of faces in the image    
 def json_(status, em=0, url=""):
     if status == "fail":
         json = '{"status": "error_fail","data": null,"message": "An Error has occurred"}'
